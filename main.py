@@ -40,6 +40,8 @@ def copy_entry():
     copied = target.read_bytes()
     if len(copied) != len(data) or copied[:8] != PNG_MAGIC:
         raise SystemExit("the copied entry.png failed its check")
+    if copied != data:
+        raise SystemExit("the copied entry.png differs from the source")
     # Gate check: the PNG header must describe a 1024x1024 image.
     width = int.from_bytes(copied[16:20], "big")
     height = int.from_bytes(copied[20:24], "big")
